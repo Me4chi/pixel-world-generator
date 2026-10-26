@@ -1,0 +1,22 @@
+{
+  "name": "pixel-world-generator",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Procedural living pixel-art worlds you can export as looping GIFs.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "tsx tests/render.check.ts"
+  },
+  "dependencies": {
+    "gifenc": "^1.0.3"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.5"
+  }
+}

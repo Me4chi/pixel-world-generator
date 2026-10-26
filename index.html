@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Generate living pixel-art worlds from a seed, pick the hour and the weather, and export a seamless looping GIF.">
+  <meta name="theme-color" content="#10151c">
+  <title>Pixel World Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Press+Start+2P&display=swap">
+</head>
+<body>
+  <main class="app">
+    <section class="viewer" aria-label="Preview">
+      <canvas id="preview" width="192" height="108" role="img" aria-label="Animated preview of the generated world"></canvas>
+      <p class="caption"><span id="biome">—</span> · <span id="structure">—</span></p>
+    </section>
+
+    <form class="panel" id="controls" onsubmit="return false">
+      <h1>Pixel World<br>Generator</h1>
+
+      <label class="field">
+        <span>Seed</span>
+        <span class="row">
+          <input id="seed" type="number" min="0" max="999999999" step="1" inputmode="numeric">
+          <button id="random" type="button" title="Random seed">Random</button>
+        </span>
+      </label>
+
+      <label class="field">
+        <span>Time of day <output id="time-out" for="time"></output></span>
+        <input id="time" type="range" min="0" max="24" step="0.25">
+      </label>
+
+      <fieldset class="field">
+        <legend>Weather</legend>
+        <div class="segmented">
+          <label><input type="radio" name="weather" value="clear"><span>Clear</span></label>
+          <label><input type="radio" name="weather" value="clouds"><span>Clouds</span></label>
+          <label><input type="radio" name="weather" value="rain"><span>Rain</span></label>
+          <label><input type="radio" name="weather" value="snow"><span>Snow</span></label>
+          <label><input type="radio" name="weather" value="fog"><span>Fog</span></label>
+        </div>
+      </fieldset>
+
+      <label class="field">
+        <span>Intensity <output id="intensity-out" for="intensity"></output></span>
+        <input id="intensity" type="range" min="0" max="1" step="0.05">
+      </label>
+
+      <label class="field">
+        <span>GIF size</span>
+        <select id="scale">
+          <option value="2">2× — 384 × 216</option>
+          <option value="3">3× — 576 × 324</option>
+          <option value="4" selected>4× — 768 × 432</option>
+          <option value="6">6× — 1152 × 648</option>
+          <option value="8">8× — 1536 × 864</option>
+        </select>
+      </label>
+
+      <div class="actions">
+        <button id="play" type="button" aria-pressed="true">Pause</button>
+        <button id="export" type="button" class="primary">Export GIF</button>
+      </div>
+      <p class="status" id="status" role="status" aria-live="polite">72 frames · 7.2 s seamless loop</p>
+    </form>
+  </main>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
