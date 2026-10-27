@@ -7,14 +7,16 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "build": "tsc --noEmit && tsc -p tsconfig.cli.json --noEmit && vite build",
     "preview": "vite preview",
-    "test": "tsx tests/render.check.ts"
+    "test": "tsx tests/render.check.ts",
+    "cli": "tsx src/cli.ts"
   },
   "dependencies": {
     "gifenc": "^1.0.3"
   },
   "devDependencies": {
+    "@types/node": "^22.20.5",
     "tsx": "^4.23.15",
     "typescript": "^5.9.3",
     "vite": "^8.3.5"

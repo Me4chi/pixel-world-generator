@@ -1,6 +1,6 @@
 import { luminance, mix, multiply } from './color';
 
-export type Weather = 'clear' | 'clouds' | 'rain' | 'snow' | 'fog';
+export type Weather = 'clear' | 'clouds' | 'rain' | 'storm' | 'snow' | 'fog';
 
 export interface Light {
   skyTop: number;
@@ -42,7 +42,7 @@ const KEYS: readonly Key[] = [
   { h: 24, ...NIGHT },
 ];
 
-const COVER: Record<Weather, number> = { clear: 0, clouds: 0.55, rain: 0.95, snow: 0.8, fog: 0.4 };
+const COVER: Record<Weather, number> = { clear: 0, clouds: 0.55, rain: 0.95, storm: 1, snow: 0.8, fog: 0.4 };
 
 export function lightAt(hour: number, weather: Weather, intensity: number, width: number, horizon: number): Light {
   const h = ((hour % 24) + 24) % 24;
@@ -64,6 +64,12 @@ export function lightAt(hour: number, weather: Weather, intensity: number, width
   skyBottom = mix(skyBottom, grey(skyBottom), cover);
   tint = mix(tint, multiply(grey(tint), 0xd8dce4), cover * 0.7);
   haze = mix(haze, grey(haze), cover * 0.8);
+  if (weather === 'storm') {
+    // Storm light is bruised and dim.
+    tint = mix(tint, 0x4a5060, 0.45 * intensity);
+    skyTop = mix(skyTop, 0x1a1e28, 0.5 * intensity);
+    skyBottom = mix(skyBottom, 0x3a404c, 0.4 * intensity);
+  }
 
   const dayArc = (x: number): { x: number; y: number } => ({
     x: 14 + x * (width - 28),

@@ -1,14 +1,16 @@
-/** A tiny RGBA framebuffer. Pure TypeScript, so worlds render identically in the browser and in tests. */
+/** A tiny RGBA framebuffer. Pure TypeScript, so worlds render identically in the browser, a worker, Node and tests. */
 export class Raster {
   readonly data: Uint8ClampedArray;
 
-  constructor(readonly width: number, readonly height: number) {
+  /** @param wrap Horizontal wrap-around: used for panoramas, where the world is a seamless ring. */
+  constructor(readonly width: number, readonly height: number, readonly wrap = false) {
     this.data = new Uint8ClampedArray(width * height * 4);
   }
 
   px(x: number, y: number, color: number, alpha = 1): void {
     x = Math.round(x);
     y = Math.round(y);
+    if (this.wrap) x = ((x % this.width) + this.width) % this.width;
     if (x < 0 || y < 0 || x >= this.width || y >= this.height || alpha <= 0) return;
     const i = (y * this.width + x) * 4;
     const d = this.data;
@@ -26,9 +28,26 @@ export class Raster {
   }
 
   get(x: number, y: number): number {
-    x = Math.max(0, Math.min(this.width - 1, Math.round(x)));
+    x = Math.round(x);
+    x = this.wrap ? ((x % this.width) + this.width) % this.width : Math.max(0, Math.min(this.width - 1, x));
     y = Math.max(0, Math.min(this.height - 1, Math.round(y)));
     const i = (y * this.width + x) * 4;
     return ((this.data[i] ?? 0) << 16) | ((this.data[i + 1] ?? 0) << 8) | (this.data[i + 2] ?? 0);
+  }
+
+  /** Copies a window starting at column `x` (wrapping when the source wraps) into `out`. */
+  copyWindow(out: Raster, x: number): void {
+    const start = Math.round(x);
+    for (let y = 0; y < out.height; y += 1) {
+      for (let ox = 0; ox < out.width; ox += 1) {
+        const sx = this.wrap ? (((start + ox) % this.width) + this.width) % this.width : Math.min(this.width - 1, start + ox);
+        const s = (y * this.width + sx) * 4;
+        const d = (y * out.width + ox) * 4;
+        out.data[d] = this.data[s] ?? 0;
+        out.data[d + 1] = this.data[s + 1] ?? 0;
+        out.data[d + 2] = this.data[s + 2] ?? 0;
+        out.data[d + 3] = 255;
+      }
+    }
   }
 }
