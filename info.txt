@@ -1,0 +1,1 @@
+out/world.gif: 1147 KB · 1122×372 · Boreal ridge · #seed=20261031&biome=auto&format=banner&size=large&time=10.75&weather=rain&intensity=0.6&season=auto&palette=original&frames=72&fps=10&layers=clouds%2Cstructures%2Clife%2Cweather
