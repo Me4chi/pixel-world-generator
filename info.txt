@@ -1,0 +1,1 @@
+out/world.gif: 1250 KB · 1122×372 · Autumn hills · #seed=20261114&biome=auto&format=banner&size=large&time=3&weather=rain&intensity=0.6&season=autumn&palette=original&frames=72&fps=10&layers=clouds%2Cstructures%2Clife%2Cweather
