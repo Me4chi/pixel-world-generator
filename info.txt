@@ -1,0 +1,1 @@
+out/world.gif: 1035 KB · 1122×372 · Frozen tundra · #seed=20261121&biome=auto&format=banner&size=large&time=16.5&weather=rain&intensity=0.6&season=summer&palette=original&frames=72&fps=10&layers=clouds%2Cstructures%2Clife%2Cweather
